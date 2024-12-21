@@ -13,6 +13,7 @@ from tqdm import tqdm
 
 from .utils.config import Config
 from .utils.file import ChunksIter
+from .auth import AliyundriveAuth
 
 class AliyunDriveApi:
     """阿里云盘 API 封装类"""
@@ -25,9 +26,11 @@ class AliyunDriveApi:
         :param config_path: 配置文件路径
         """
         self.config = Config(config_path)
-        self.access_token = self.config.access_token
-        self.refresh_token = self.config.refresh_token
-        self.drive_id = self.config.drive_id
+        self.auth = AliyundriveAuth()
+        self.tokens = self.auth.get_config()
+        self.access_token = self.tokens['access_token']
+        self.refresh_token = self.tokens['refresh_token']
+        self.drive_id = self.tokens['default_drive_id']
 
         self.headers = {
             "accept": "application/json, text/plain, */*",
@@ -135,7 +138,7 @@ class AliyunDriveApi:
         for file in root_files:
             if name.lower() in file['name'].lower():
                 results.append(file)
-            # 如果是文件夹，递归搜索
+            # 如果是文件夹，��归搜索
             if file['type'] == 'folder':
                 folder_files = self.list_files(file['file_id'])
                 for sub_file in folder_files:
@@ -166,7 +169,7 @@ class AliyunDriveApi:
         
         # 如果是文件夹，显示提示信息
         if file_info['type'] == 'folder':
-            print(f"    提示: 使用 'aliyundrive list \"{file_info['name']}\"' 查看此文件夹内容")
+            print(f"    提示: 使用 'aliyundrive list \"{file_info['name']}\"' 查看此文件夹���容")
 
     def download_file(self, file_id: str, save_path: str = None):
         """
