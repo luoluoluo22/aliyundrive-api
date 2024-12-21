@@ -39,7 +39,7 @@ aliyundrive --init
 5. 在左侧找到"本地存储空间/Local Storage" -> "https://www.aliyundrive.com"
 6. 找到"token"项并复制其值
 7. 粘贴到命令行（粘贴完成后按两次回车）
-![参考图片](./doc/get_token.png)
+![参考图片](./docs/get_token.png)
 
 配置文件会自动保存在：
 - Windows: `C:\Users\用户名\.aliyundrive\config.ini`
